@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootswatch/dist/materia/bootstrap.min.css";
+import Layout from './components/Layout.js'
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+<>
+    <Layout />
+    <div className="container jumbotron">
+      <h1 className="display-3">Hello, world!</h1>
+      <p className="lead">
+        This is a simple hero unit, a simple jumbotron-style component for
+        calling extra attention to featured content or information.
+      </p>
+      <hr className="my-4" />
+      <p>
+        It uses utility classes for typography and spacing to space content out
+        within the larger container.
+      </p>
+      <p className="lead">
+        <a className="btn btn-primary btn-lg" href="/" role="button">
+          Learn more
         </a>
-      </header>
+      </p>
     </div>
+    </>
   );
 }
 
