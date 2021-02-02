@@ -1,0 +1,26 @@
+body,html, .sidebar,.container-fluid{
+  height:100%
+}
+.cocktail-card{
+  margin-top: 25px;
+}
+.sidebar{
+  border-right: thin solid #c3c3c3;
+  height:100%
+}
+.nav-link{
+  font-size: 1.1rem;
+}
+.dropdown-item{
+  font-size: 1rem;
+}
+.cards-container{
+  padding-bottom: 100px;
+}
+.add-rem-btn{
+position: relative;
+top: 39px;
+margin-right: 20px;
+}
+
+/* Loading state */
