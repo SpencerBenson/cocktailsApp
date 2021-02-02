@@ -1,28 +1,23 @@
-import "bootswatch/dist/materia/bootstrap.min.css";
-import Layout from './components/Layout.js'
+// import Layout from './components/Layout.js'
+// import NavBar from "./components/NavBar";
+import HomePage from "./views/Home";
+import NewCocktail from "./views/NewCocktail";
 import "./App.css";
-
+import { Switch, Route } from "react-router-dom";
+import Layout from './components/Layout'
+import CocktailDetails from "./views/CocktailDetails";
+import FilterByCategory from "./views/FilterByCategory";
 function App() {
   return (
-<>
-    <Layout />
-    <div className="container jumbotron">
-      <h1 className="display-3">Hello, world!</h1>
-      <p className="lead">
-        This is a simple hero unit, a simple jumbotron-style component for
-        calling extra attention to featured content or information.
-      </p>
-      <hr className="my-4" />
-      <p>
-        It uses utility classes for typography and spacing to space content out
-        within the larger container.
-      </p>
-      <p className="lead">
-        <a className="btn btn-primary btn-lg" href="/" role="button">
-          Learn more
-        </a>
-      </p>
-    </div>
+    <>
+      <Switch>
+        <Layout>
+          <Route path="/" component={HomePage} exact />
+          <Route path="/category/:categoryId" component={FilterByCategory} />
+          <Route path="/cocktail/:cocktailId" component={CocktailDetails} />
+          <Route path="/cocktail" exact component={NewCocktail} />
+        </Layout>
+      </Switch>
     </>
   );
 }
