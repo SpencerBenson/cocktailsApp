@@ -1,50 +1,132 @@
-import React from 'react'
+import React, { Component } from 'react';
+import {
+  // Switch,
+  // Route,
+  Link
+} from "react-router-dom";
+
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText,
+  Form,
+  Input,
+  Button
+} from 'reactstrap';
+import { FaSearch } from 'react-icons/fa';
+import axios from 'axios'
 
 
-function NavBar(Props){
-  return(
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-<a className="navbar-brand" href="#">Cocktails App</a>
-<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-  <span className="navbar-toggler-icon"></span>
-</button>
+class NavBar extends Component{
+  
+  categories_URL = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list'
+ 
+  constructor(props){
+    super(props)
+    this.state = {
+      isOpen:false,
+      categoriesArray:[]
+    }
+  }
+  setIsOpen(){
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
 
-<div className="collapse navbar-collapse" id="navbarColor03">
-  <ul className="navbar-nav mr-auto">
-    <li className="nav-item active">
-      <a className="nav-link" href="#">Home
-        <span className="sr-only">(current)</span>
-      </a>
-    </li>
-    <li className="nav-item">
-      <a className="nav-link" href="#">Add Cocktail</a>
-    </li>
-    <li className="nav-item dropdown">
-      <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Advanced Filter</a>
-      <div className="dropdown-menu">
-        <a className="dropdown-item" href="#">Sweet</a>
-        <a className="dropdown-item" href="#">Romantic</a>
-        <a className="dropdown-item" href="#">Something else here</a>
-        <div className="dropdown-divider"></div>
-        <a className="dropdown-item" href="#">Separated link</a>
-      </div>
-    </li>
-  </ul>
-  <form className="form-inline my-2 my-lg-0">
-    <input className="form-control mr-sm-2" type="text" placeholder="Search" />
-    <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-  </form>
-</div>
-</nav>
-  )
+  // const [isOpen, setIsOpen] = useState(false);
+
+  async fetchCategories(){
+    try{
+
+        let response = await axios.get(this.categories_URL )
+        .then(res=> res.data.drinks).catch(e => {throw(e)})
+        
+console.log('response,',response)
+      this.setState({   
+        categoriesArray: response
+          }); 
+
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+ toggle(){
+  this.setIsOpen();
+ }
+
+ async componentDidMount(){
+  await this.fetchCategories()
 }
 
-export default NavBar
-  
-  
+render(){
+let categories = this.state.categoriesArray
+
+  return (
+    <>
+      <Navbar color="light" light expand="md">
+        <NavbarBrand href="/">
+          <img src={'/logo.png'} alt='logo' height='50px'/>
+          </NavbarBrand>
+        <NavbarToggler onClick={this.toggle} />
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+            <NavItem>
+         
+              <Link to="/" class="nav-link">Home</Link>
+            </NavItem>
+            <NavItem>
+              <Link to="/cocktail" class="nav-link">Submit a Cocktail</Link>
+            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Filter By Category
+              </DropdownToggle>
+              <DropdownMenu right>
+              {categories.map((category, index) => (
+                  <DropdownItem 
+                  key={index}>
+
+                
+                  <Link to={'/category/' + category.strCategory.replace(" ", "_")  } class="nav-link">{category.strCategory}</Link>
+                </DropdownItem>
+                ))}
+                <DropdownItem>
+                  Sweet Cocktails
+                </DropdownItem>
+                <DropdownItem>
+                  Flavored Cocktails
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                  Discover
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          <NavbarText>
+      <Form style={{display:'flex'}}>
+        <Input style={{marginRight:'10px'}}>Search cocktail</Input>
+          <Button color="secondary"  style={{display:'flex'}}><FaSearch style={{position: 'relative', top:'3px',marginRight:'10px', verticalAlign:'middle'}} /> Search</Button>
+      </Form>
+          </NavbarText>
+          
+        </Collapse>
+      </Navbar>  
+    </>
+  );
+}
 
 
+}
 
-
-
-
+export default NavBar;
