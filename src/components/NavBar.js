@@ -28,6 +28,7 @@ import axios from 'axios'
 class NavBar extends Component{
   
   categories_URL = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list'
+  search_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
  
   constructor(props){
     super(props)
@@ -63,7 +64,6 @@ console.log('response,',response)
  toggle(){
   this.setIsOpen();
  }
-
  async componentDidMount(){
   await this.fetchCategories()
 }
